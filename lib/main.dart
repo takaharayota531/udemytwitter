@@ -8,6 +8,8 @@ import 'package:udemypractice/views/signup_page.dart';
 import 'firebase_options.dart';
 import 'models/main_model.dart';
 import 'package:udemypractice/constants/routes.dart' as routes;
+import 'package:udemypractice/constants/strings.dart';
+import 'package:udemypractice/details/rounded_button.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,13 +28,13 @@ class MyApp extends ConsumerWidget {
     final MainModel mainModel = ref.watch(mainProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: appTitle,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: mainModel.currentUser == null
           ? LoginPage(mainModel: mainModel)
-          : MyHomePage(title: 'Flutter Demo Home Page', mainModel: mainModel),
+          : MyHomePage(title: appTitle, mainModel: mainModel),
     );
   }
 }
@@ -49,19 +51,25 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("mainPage"),
+        title: Text(title),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          ElevatedButton(
-              onPressed: () => routes.toSignupPage(context: context),
-              child: const Text("登録画面")),
-          ElevatedButton(
-              onPressed: () =>
-                  routes.toLoginPage(context: context, mainModel: mainModel),
-              child: const Text("ログイン画面")),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            RoundedButton(
+                onPressed: () => routes.toSignupPage(context: context),
+                widthRate: 0.3,
+                color: Colors.green,
+                text: signupText),
+            RoundedButton(
+                onPressed: () =>
+                    routes.toLoginPage(context: context, mainModel: mainModel),
+                widthRate: 0.3,
+                color: Colors.green,
+                text: loginText),
+          ],
+        ),
       ),
     );
   }

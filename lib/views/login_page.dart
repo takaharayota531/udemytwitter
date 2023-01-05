@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:udemypractice/models/login_model.dart';
 import 'package:udemypractice/models/main_model.dart';
+import 'package:udemypractice/details/rounded_text_field.dart';
+import 'package:udemypractice/details/rounded_password_field.dart';
+import 'package:udemypractice/details/rounded_button.dart';
+import 'package:udemypractice/constants/strings.dart';
 
 class LoginPage extends ConsumerWidget {
   LoginPage({Key? key, required MainModel this.mainModel}) : super(key: key);
@@ -18,28 +22,36 @@ class LoginPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ログインページ"),
+        title: const Text(loginTitle),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          TextFormField(
+          RoundedTextField(
             keyboardType: TextInputType.emailAddress,
             onChanged: (text) => loginModel.email = text,
             controller: emailEditingController,
+            color: Colors.white,
+            borderColor: Colors.black,
+            shadowColor: Colors.red,
+            hintText: mailAddressText,
           ),
-          TextFormField(
-            keyboardType: TextInputType.visiblePassword,
+          RoundedPasswordField(
             onChanged: (text) => loginModel.password = text,
-            controller: passwordEditingController,
             obscureText: loginModel.isObscure,
-            decoration: InputDecoration(
-                suffix: InkWell(
-              child: loginModel.isObscure
-                  ? Icon(Icons.visibility_off)
-                  : Icon(Icons.visibility),
-            )),
-            onTap: () => loginModel.toggleIsObscure(),
+            passwordEditingController: passwordEditingController,
+            toggleObscureText: (() => loginModel.toggleIsObscure()),
+            color: Colors.white,
+            borderColor: Colors.black,
+            shadowColor: Colors.blue,
+            hintText: passwordText,
           ),
+          RoundedButton(
+              onPressed: (() async => await loginModel.login(
+                  context: context, mainModel: mainModel)),
+              widthRate: 0.3,
+              color: Colors.green,
+              text: loginText),
         ],
       ),
 
@@ -48,12 +60,10 @@ class LoginPage extends ConsumerWidget {
       //   tooltip: 'Increment',
       //   child: const Icon(Icons.add),
       // ), // This trailing comma makes auto-formatting nicer for build methods.
-      floatingActionButton: FloatingActionButton(
-        onPressed: (() async =>
-            await loginModel.login(context: context, mainModel: mainModel)),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }
