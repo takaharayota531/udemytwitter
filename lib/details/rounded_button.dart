@@ -31,7 +31,7 @@ class RoundedButton extends StatelessWidget {
                 vertical: 16.0,
                 horizontal: 8.0,
               ),
-              child: Text("ボタン"),
+              child: Text(text),
             ),
             style: ElevatedButton.styleFrom(
               primary: color,

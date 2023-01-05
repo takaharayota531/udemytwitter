@@ -23,15 +23,14 @@ class LoginModel extends ChangeNotifier {
   bool isObscure = true;
 
   //auth用にユーザーを作成
-  Future<void> login(
-      {required BuildContext context, required MainModel mainModel}) async {
+  Future<void> login({required BuildContext context}) async {
     try {
       //firebaseのauth用
 
       UserCredential result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       routes.toMainPage(context: context);
-      mainModel.setCurrentUser();
+      // mainModel.setCurrentUser();
 
       // .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {

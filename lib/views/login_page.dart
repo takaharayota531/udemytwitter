@@ -10,8 +10,8 @@ import 'package:udemypractice/details/rounded_button.dart';
 import 'package:udemypractice/constants/strings.dart';
 
 class LoginPage extends ConsumerWidget {
-  LoginPage({Key? key, required MainModel this.mainModel}) : super(key: key);
-  final MainModel mainModel;
+  LoginPage({Key? key}) : super(key: key);
+  // final MainModel mainModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final LoginModel loginModel = ref.watch(loginProvider);
@@ -47,8 +47,7 @@ class LoginPage extends ConsumerWidget {
             hintText: passwordText,
           ),
           RoundedButton(
-              onPressed: (() async => await loginModel.login(
-                  context: context, mainModel: mainModel)),
+              onPressed: (() async => await loginModel.login(context: context)),
               widthRate: 0.3,
               color: Colors.green,
               text: loginText),

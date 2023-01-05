@@ -15,3 +15,9 @@ const String usersFieldKey = "users";
 
 //message key
 const String userCreateMsg = "ユーザーが作成できました";
+const String loadingMsg = "読み込み中です";
+
+//bottom
+const String homeText = "Home";
+const String searchText = "Search";
+const String profileText = "Profile";
