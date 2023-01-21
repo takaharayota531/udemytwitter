@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //constants
 import 'package:udemypractice/constants/routes.dart' as routes;
+import 'package:udemypractice/domain/firestore_user/firestore_user.dart';
 import 'package:udemypractice/main.dart';
 
 import '../constants/strings.dart';
@@ -25,6 +26,7 @@ class MainModel extends ChangeNotifier {
   int counter = 0;
   User? currentUser = null;
   late DocumentSnapshot<Map<String, dynamic>> currentUserDoc;
+  late FirestoreUser firestoreUser;
   //main modelの起動処理 ユーザーの動作を必要としない
   MainModel() {
     init();
@@ -43,6 +45,7 @@ class MainModel extends ChangeNotifier {
         .collection(usersFieldKey)
         .doc(currentUser!.uid)
         .get();
+    firestoreUser = FirestoreUser.fromJson(currentUserDoc.data()!);
 
     notifyListeners();
     //current userのidが取得可能になった

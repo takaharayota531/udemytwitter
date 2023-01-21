@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:udemypractice/details/user_image.dart';
 //domain
 import 'package:udemypractice/domain/firestore_user/firestore_user.dart';
 import 'package:udemypractice/constants/strings.dart';
@@ -32,9 +33,13 @@ class SignupModel extends ChangeNotifier {
         updatedAt: now,
         email: email,
         userName: "Alice",
+        userImageURL: "",
         uid: uid);
     final Map<String, dynamic> userData = firestoreUser.toJson();
-    await FirebaseFirestore.instance.collection('users').doc(uid).set(userData);
+    await FirebaseFirestore.instance
+        .collection(usersFieldKey)
+        .doc(uid)
+        .set(userData);
     //画面下部にメッセージが表示される
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(userCreateMsg)));

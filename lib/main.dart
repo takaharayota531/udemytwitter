@@ -13,6 +13,10 @@ import 'package:udemypractice/constants/strings.dart';
 import 'package:udemypractice/details/rounded_button.dart';
 import 'package:udemypractice/models/sns_bottom_navigation_bar_model.dart';
 import 'package:udemypractice/details/sns_bottom_navigation_bar.dart';
+//components
+import 'package:udemypractice/views/main/home_screen.dart';
+import 'package:udemypractice/views/main/profile_screen.dart';
+import 'package:udemypractice/views/main/search_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,15 +70,9 @@ class MyHomePage extends ConsumerWidget {
               onPageChanged: (index) =>
                   snsBottomNavigationBarModel.onPageChanged(index: index),
               children: [
-                Container(
-                  child: Text(homeText),
-                ),
-                Container(
-                  child: Text(searchText),
-                ),
-                Container(
-                  child: Text(profileText),
-                ),
+                HomeScreen(),
+                SearchScreen(),
+                ProfileScreen(mainModel: mainModel),
               ],
             ),
       bottomNavigationBar: SNSBottomNavigationBar(
