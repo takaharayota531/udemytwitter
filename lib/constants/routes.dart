@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:udemypractice/constants/strings.dart';
+import 'package:udemypractice/domain/firestore_user/firestore_user.dart';
 import 'package:udemypractice/models/main_model.dart';
+import 'package:udemypractice/views/passive_user_profile_page.dart';
 // import 'package:udemypractice/models/main_model.dart';
 
 import 'package:udemypractice/views/signup_page.dart';
@@ -20,3 +22,13 @@ void toAccountPage(
         context,
         MaterialPageRoute(
             builder: (context) => AccountPage(mainModel: mainModel)));
+
+void toPassiveUserProfilePage(
+        {required BuildContext context,
+        required FirestoreUser passiveFirestoreUser}) =>
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PassiveUserProfilePage(
+                  passiveFirestoreUser: passiveFirestoreUser,
+                )));
