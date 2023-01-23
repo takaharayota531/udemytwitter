@@ -8,6 +8,8 @@ import 'package:udemypractice/details/rounded_text_field.dart';
 import 'package:udemypractice/details/rounded_password_field.dart';
 import 'package:udemypractice/details/rounded_button.dart';
 import 'package:udemypractice/constants/strings.dart';
+//routes
+import 'package:udemypractice/constants/routes.dart' as routes;
 
 class LoginPage extends ConsumerWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -51,6 +53,11 @@ class LoginPage extends ConsumerWidget {
               widthRate: 0.3,
               color: Colors.green,
               text: loginText),
+          TextButton(
+              onPressed: () {
+                routes.toSignupPage(context: context);
+              },
+              child: const Text(IF_YOU_DONT_HAVE_AN_ACCOUNT)),
         ],
       ),
 

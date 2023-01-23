@@ -12,6 +12,8 @@ abstract class FirestoreUser with _$FirestoreUser {
       {required dynamic createdAt,
       required dynamic updatedAt,
       required String email,
+      required int followerCount,
+      required int followingCount,
       required String userName,
       required String userImageURL,
       required String uid}) = _FirestoreUser;

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+import 'package:udemypractice/constants/doubles.dart';
 //constants
 import 'package:udemypractice/constants/strings.dart';
 import 'package:udemypractice/details/rounded_button.dart';
 //components
 import 'package:udemypractice/details/user_image.dart';
+import 'package:udemypractice/domain/firestore_user/firestore_user.dart';
 import 'package:udemypractice/models/main/profile_model.dart';
 //models
 import 'package:udemypractice/models/main_model.dart';
@@ -22,24 +25,60 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ProfileModel profileModel = ref.watch(profileProvider);
+    final FirestoreUser firestoreUser = mainModel.firestoreUser;
+    final int followerCount = firestoreUser.followerCount;
+    final int plusOneFollowerCount = firestoreUser.followerCount + 1;
+    final bool isFollowing =
+        mainModel.followingUids.contains(firestoreUser.uid);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        profileModel.xFile == null
-            ? Container(
-                alignment: Alignment.center,
-                child: UserImage(
-                  imageLength: imageLength,
-                  userImageURL: mainModel.firestoreUser.userImageURL,
-                ),
+        profileModel.croppedFile == null
+            ? UserImage(
+                imageLength: imageLength,
+                userImageURL: firestoreUser.userImageURL,
               )
-            : Text("Loading"),
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(80.0),
+                child: Image.file(
+                  profileModel.croppedFile!,
+                  fit: BoxFit.fill,
+                ),
+              ),
+        Text(
+          nowFollowing + firestoreUser.followingCount.toString(),
+          style: TextStyle(fontSize: FOLLOW_FONT_SIZE),
+        ),
+        Text(
+          isFollowing
+              ? numOfFollowers + plusOneFollowerCount.toString()
+              : numOfFollowers + followerCount.toString(),
+          style: TextStyle(fontSize: FOLLOW_FONT_SIZE),
+        ),
         RoundedButton(
             onPressed: () async => await profileModel.uploadUserImage(
                 currentUserDoc: mainModel.currentUserDoc),
             widthRate: 0.85,
             color: Colors.green,
-            text: "Upload"),
+            text: uploadText),
+        SizedBox(height: 32.0),
+        isFollowing
+            ? RoundedButton(
+                onPressed: () => profileModel.unfollow(
+                    mainModel: mainModel, passiveFirestoreUser: firestoreUser),
+                widthRate: 0.85,
+                color: Colors.red,
+                text: unfollowText)
+            : RoundedButton(
+                onPressed: () => profileModel.follow(
+                    mainModel: mainModel, passiveFirestoreUser: firestoreUser),
+                widthRate: 0.85,
+                color: Colors.green,
+                text: followText),
+        ElevatedButton(
+            onPressed: () => {print(profileModel.croppedFile == null)},
+            child: Text("デバッグ"))
       ],
     );
   }

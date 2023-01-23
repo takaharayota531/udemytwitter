@@ -9,7 +9,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:udemypractice/details/user_image.dart';
 //domain
 import 'package:udemypractice/domain/firestore_user/firestore_user.dart';
+// constants
 import 'package:udemypractice/constants/strings.dart';
+import 'package:udemypractice/constants/routes.dart' as routes;
 
 final signupProvider = ChangeNotifierProvider(((ref) => SignupModel()));
 
@@ -32,6 +34,8 @@ class SignupModel extends ChangeNotifier {
         createdAt: now,
         updatedAt: now,
         email: email,
+        followerCount: 0,
+        followingCount: 0,
         userName: "Alice",
         userImageURL: "",
         uid: uid);
@@ -57,6 +61,7 @@ class SignupModel extends ChangeNotifier {
       // final String userNanem = user!.userName;
 
       await createFirestoreUser(context: context, uid: uid);
+      routes.toMainPage(context: context);
     } on FirebaseAuthException catch (e) {
       print(e.toString());
     }

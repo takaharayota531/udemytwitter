@@ -27,6 +27,8 @@ class MainModel extends ChangeNotifier {
   User? currentUser = null;
   late DocumentSnapshot<Map<String, dynamic>> currentUserDoc;
   late FirestoreUser firestoreUser;
+  //tokens
+  List<String> followingUids = [];
   //main modelの起動処理 ユーザーの動作を必要としない
   MainModel() {
     init();
