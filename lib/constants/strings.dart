@@ -8,6 +8,7 @@ const String loginTitle = "ログイン";
 const String cropperTitle = "Cropper";
 const String accountTitle = "Account";
 const String themeTitle = "Theme";
+const String profileTitle = "さんのページです";
 
 //texts
 const String mailAddressText = "メールアドレス";
@@ -26,6 +27,7 @@ const String IF_YOU_DONT_HAVE_AN_ACCOUNT = "アカウントをお持ちでない
 
 //FieldKey
 const String usersFieldKey = "users";
+const String usersFollowersKey = "followers";
 
 //message key
 const String userCreateMsg = "ユーザーが作成できました";

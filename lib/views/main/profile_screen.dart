@@ -26,10 +26,7 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ProfileModel profileModel = ref.watch(profileProvider);
     final FirestoreUser firestoreUser = mainModel.firestoreUser;
-    final int followerCount = firestoreUser.followerCount;
-    final int plusOneFollowerCount = firestoreUser.followerCount + 1;
-    final bool isFollowing =
-        mainModel.followingUids.contains(firestoreUser.uid);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,9 +48,7 @@ class ProfileScreen extends ConsumerWidget {
           style: TextStyle(fontSize: FOLLOW_FONT_SIZE),
         ),
         Text(
-          isFollowing
-              ? numOfFollowers + plusOneFollowerCount.toString()
-              : numOfFollowers + followerCount.toString(),
+          numOfFollowers + firestoreUser.followerCount.toString(),
           style: TextStyle(fontSize: FOLLOW_FONT_SIZE),
         ),
         RoundedButton(
@@ -63,19 +58,6 @@ class ProfileScreen extends ConsumerWidget {
             color: Colors.green,
             text: uploadText),
         SizedBox(height: 32.0),
-        isFollowing
-            ? RoundedButton(
-                onPressed: () => profileModel.unfollow(
-                    mainModel: mainModel, passiveFirestoreUser: firestoreUser),
-                widthRate: 0.85,
-                color: Colors.red,
-                text: unfollowText)
-            : RoundedButton(
-                onPressed: () => profileModel.follow(
-                    mainModel: mainModel, passiveFirestoreUser: firestoreUser),
-                widthRate: 0.85,
-                color: Colors.green,
-                text: followText),
         ElevatedButton(
             onPressed: () => {print(profileModel.croppedFile == null)},
             child: Text("デバッグ"))

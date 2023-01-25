@@ -57,46 +57,4 @@ class ProfileModel extends ChangeNotifier {
 //xfileの変更を通知する必要がある
     notifyListeners();
   }
-
-  // follow関係の構築
-  Future<void> follow(
-      {required MainModel mainModel,
-      required FirestoreUser passiveFirestoreUser}) async {
-    mainModel.followingUids.add(passiveFirestoreUser.uid);
-    notifyListeners();
-    final String tokenId = returnUuidV4();
-    final FollowingToken followingToken = FollowingToken(
-        createdAt: Timestamp.now(),
-        passiveUid: passiveFirestoreUser.uid,
-        tokenId: tokenId);
-    final FirestoreUser activeUser = mainModel.firestoreUser;
-
-    await FirebaseFirestore.instance
-        .collection(usersFieldKey)
-        .doc(activeUser.uid)
-        .collection(tokens)
-        .doc(tokenId)
-        .set(followingToken.toJson());
-  }
-
-  Future<void> unfollow(
-      {required MainModel mainModel,
-      required FirestoreUser passiveFirestoreUser}) async {
-    mainModel.followingUids.remove(passiveFirestoreUser.uid);
-    notifyListeners();
-    // followしているtokenを取得する
-    final FirestoreUser activeUser = mainModel.firestoreUser;
-    // これ複数扱い qshotというdataの塊の存在を取得
-    final qshot = await FirebaseFirestore.instance
-        .collection(usersFieldKey)
-        .doc(activeUser.uid)
-        .collection(tokens)
-        .where(PASSIVE_UID, isEqualTo: passiveFirestoreUser.uid)
-        .get();
-    // 一つしかデータは取得していないはず
-    final List<DocumentSnapshot<Map<String, dynamic>>> docs = qshot.docs;
-    final DocumentSnapshot<Map<String, dynamic>> token = docs.first;
-    // pathを削除
-    await token.reference.delete();
-  }
 }

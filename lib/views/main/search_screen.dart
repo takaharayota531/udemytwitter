@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:udemypractice/constants/strings.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:udemypractice/domain/firestore_user/firestore_user.dart';
+import 'package:udemypractice/models/main_model.dart';
 import 'package:udemypractice/views/main/search_model.dart';
 import 'package:udemypractice/constants/routes.dart' as routes;
 
 class SearchScreen extends ConsumerWidget {
-  SearchScreen({
-    Key? key,
-  }) : super(key: key);
-
+  SearchScreen({Key? key, required this.mainModel}) : super(key: key);
+  final MainModel mainModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SearchModel searchModel = ref.watch(searchProvider);
@@ -21,7 +20,9 @@ class SearchScreen extends ConsumerWidget {
           return ListTile(
             title: Text(firestoreUser.uid + ":" + firestoreUser.userName),
             onTap: () => routes.toPassiveUserProfilePage(
-                context: context, passiveFirestoreUser: firestoreUser),
+                context: context,
+                passiveFirestoreUser: firestoreUser,
+                mainModel: mainModel),
           );
         }));
   }
